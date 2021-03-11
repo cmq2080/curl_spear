@@ -12,9 +12,9 @@ namespace curl_spear;
 use curl_spear\lib\Body;
 use curl_spear\lib\Header;
 use curl_spear\lib\Response;
-use curl_spear\lib\tra\BodyTrait;
-use curl_spear\lib\tra\HeaderTrait;
-use curl_spear\lib\tra\ResponseTrait;
+use curl_spear\lib\trait_set\BodyTrait;
+use curl_spear\lib\trait_set\HeaderTrait;
+use curl_spear\lib\trait_set\ResponseTrait;
 
 class Curl
 {
@@ -80,6 +80,8 @@ class Curl
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HEADER, 1); // 头部不输出
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // 结果返回，不直接输出到页面
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 忽略证书验证
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); // 忽略证书验证
 
         $body = $this->body->get(); // 获取请求体数据
         if ($method === self::METHOD_GET) { // GET方式提交，拼接URL字符串
@@ -142,7 +144,7 @@ class Curl
                 $data = json_decode($data, true);
             }
             // 填充请求数据
-            $this->header->set($data);
+            $this->body->set($data);
 
             return $this->exec($url, $method);
         }

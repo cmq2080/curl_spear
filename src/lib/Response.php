@@ -19,12 +19,12 @@ class Response implements CurlI
         // TODO: Implement set() method.
     }
 
-    public function get($key)
+    public function get($key = null)
     {
         // TODO: Implement get() method.
         return ($key === null) ?
             $this->data :
-            isset($this->data[$key]) === true ? $this->data[$key] : null;
+            (isset($this->data[$key]) === true ? $this->data[$key] : null);
     }
 
     public function delete($key)

@@ -7,14 +7,15 @@ class Header implements CurlI
 
     public function __construct($userAgent)
     {
-        $this->setUserAgent($userAgent);
+        $this->set('User-Agent', $userAgent);
     }
 
     public function set($key, $value = null)
     {
         // TODO: Implement set() method.
+        $data = [];
         if ($value !== null) {
-            $data = [$key => $value];
+            $data[$key] = $value;
         } else {
             if (is_array($key) === false) {
                 throw new \Exception('设置请求头错误：当仅传入一个参数时该参数必须为数组');
@@ -33,7 +34,7 @@ class Header implements CurlI
         // TODO: Implement get() method.
         return ($key === null) ?
             $this->data :
-            isset($this->data[$key]) === true ? $this->data[$key] : null;
+            (isset($this->data[$key]) === true ? $this->data[$key] : null);
     }
 
     public function delete($key)
