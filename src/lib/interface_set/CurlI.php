@@ -3,7 +3,7 @@
  * 描述：
  * Created at 2021/3/11 9:00 by Temple Chan
  */
-namespace curl_spear\lib;
+namespace curl_spear\lib\interface_set;
 
 interface CurlI
 {

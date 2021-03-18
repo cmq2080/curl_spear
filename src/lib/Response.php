@@ -1,10 +1,12 @@
 <?php
 namespace curl_spear\lib;
 
+use curl_spear\lib\interface_set\CurlI;
+
 class Response implements CurlI
 {
     private $code = null;
-    private $data = [];
+    private $data = null; // 这里的data是字符串类型
     private $info = [];
 
     public function __construct($code, $data, $info = [])
@@ -17,14 +19,13 @@ class Response implements CurlI
     public function set($key, $value)
     {
         // TODO: Implement set() method.
+        return;
     }
 
     public function get($key = null)
     {
         // TODO: Implement get() method.
-        return ($key === null) ?
-            $this->data :
-            (isset($this->data[$key]) === true ? $this->data[$key] : null);
+        return $this->data;
     }
 
     public function delete($key)
@@ -35,7 +36,8 @@ class Response implements CurlI
     public function clear()
     {
         $this->code = null;
-        $this->data = [];
+        $this->data = null;
+        $this->info = [];
     }
 
     public function getCode()
@@ -43,8 +45,10 @@ class Response implements CurlI
         return $this->code;
     }
 
-    public function stringify()
+    public function getInfo($key = null)
     {
-
+        return $key === null ?
+            $this->info :
+            (isset($this->info[$key]) === true ? $this->info[$key] : null);
     }
 }
