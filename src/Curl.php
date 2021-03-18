@@ -29,6 +29,7 @@ class Curl
     const METHOD_POST = 'POST';
 
     private static $instance = null;
+    private $config = null;
     private $header = null; // 请求头
     private $body = null; // 请求体
     private $response = null; // 响应结果
@@ -78,20 +79,20 @@ class Curl
     private function exec($url, $method)
     {
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HEADER, 1); // 头部不输出
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // 结果返回，不直接输出到页面
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 忽略证书验证
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); // 忽略证书验证
+        curl_setopt($ch, CURLOPT_HEADER, ($this->config->get('HEADER') !== null) ? $this->config->get('HEADER') : 0); // 头部不输出
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, ($this->config->get('RETURNTRANSFER') !== null) ? $this->config->get('RETURNTRANSFER') : 1); // 结果返回，不直接输出到页面
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, ($this->config->get('SSL_VERIFYPEER') !== null) ? $this->config->get('SSL_VERIFYPEER') : false); // 忽略证书验证
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, ($this->config->get('SSL_VERIFYHOST') !== null) ? $this->config->get('SSL_VERIFYHOST') : false); // 忽略证书验证
 
         $body = $this->body->get(); // 获取请求体数据
         if ($method === self::METHOD_GET) { // GET方式提交，拼接URL字符串
             if (empty($body) === false) { // 当请求体有数据时，续到url上
-                $params = http_build_query($body);
+                $qString = http_build_query($body);
                 $url = trim($url, '?');
                 if (strpos($url, '?') !== false) { // 前面有参数了
-                    $url .= '&' . $params;
+                    $url .= '&' . $qString;
                 } else { // 前面没有参数
-                    $url .= '?' . $params;
+                    $url .= '?' . $qString;
                 }
             }
 

@@ -1,6 +1,8 @@
 <?php
 namespace curl_spear\lib;
 
+use curl_spear\lib\interface_set\CurlI;
+
 class Header implements CurlI
 {
     private $data = [];

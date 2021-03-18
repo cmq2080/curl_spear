@@ -7,9 +7,10 @@
 namespace curl_spear\lib;
 
 
+use curl_spear\lib\interface_set\CurlI;
+
 class Body implements CurlI
 {
-
     private $data = [];
 
     public function set($key, $value = null)
