@@ -21,18 +21,7 @@ trait HeaderTrait
         return $this;
     }
 
-    public function setHeaders($name, $value = null) // 即将废弃
-    {
-        $this->header->set($name, $value);
-        return $this;
-    }
-
     public function getHeader($name = null) // 目的功能只是为了获取一个header项，所以用单数
-    {
-        return $this->header->get($name);
-    }
-
-    public function getHeaders($name = null) // 即将废弃
     {
         return $this->header->get($name);
     }
