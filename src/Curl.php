@@ -10,14 +10,17 @@ namespace curl_spear;
 
 
 use curl_spear\lib\Body;
+use curl_spear\lib\Config;
 use curl_spear\lib\Header;
 use curl_spear\lib\Response;
 use curl_spear\lib\trait_set\BodyTrait;
+use curl_spear\lib\trait_set\ConfigTrait;
 use curl_spear\lib\trait_set\HeaderTrait;
 use curl_spear\lib\trait_set\ResponseTrait;
 
 class Curl
 {
+    use ConfigTrait;
     use HeaderTrait;
     use BodyTrait;
     use ResponseTrait;
@@ -34,14 +37,17 @@ class Curl
     private $body = null; // 请求体
     private $response = null; // 响应结果
 
-    public static function instance()
+    /**
+     * 功能：获取实例
+     * Created at 2021/3/29 15:35 by 陈庙琴
+     * @param bool $reset
+     * @return Curl|null
+     */
+    public static function instance($reset = false)
     {
-        if (self::$instance === null || get_class(self::$instance) !== self::class) {
+        if (self::$instance === null || $reset === true) {
             // 没有则创建
             self::$instance = new self();
-        } else {
-            // 有则初始化header及body信息
-            self::$instance->clearAll();
         }
 
         return self::$instance;
@@ -49,6 +55,7 @@ class Curl
 
     private function __construct()
     {
+        $this->config = new Config();
         $this->header = new Header(self::USER_AGENT);
         $this->body = new Body();
         $this->response = null;
@@ -60,6 +67,7 @@ class Curl
      */
     public function clearAll()
     {
+        $this->config->clear();
         $this->header->clear();
         $this->body->clear();
         $this->response = null;

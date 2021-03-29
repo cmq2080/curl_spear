@@ -63,14 +63,4 @@ class Config implements CurlI
         // TODO: Implement clear() method.
         $this->data = [];
     }
-
-    public function keyToUpper()
-    {
-        $data = [];
-        foreach ($this->data as $key => $value) {
-            $data[strtoupper($key)] = $value;
-        }
-
-        $this->data = $data;
-    }
 }
