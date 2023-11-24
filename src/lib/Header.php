@@ -1,52 +1,48 @@
 <?php
-namespace curl_spear\lib;
 
-use curl_spear\lib\interface_set\CurlI;
+namespace cmq2080\curl_spear\lib;
 
-class Header implements CurlI
+class Header
 {
-    private $data = [];
+    protected $data;
 
-    public function __construct($userAgent)
+    public function __construct($empty = false)
     {
-        $this->set('User-Agent', $userAgent);
+        if (!$empty) {
+            $this->set('Accept', '*/*');
+            $this->set('Accept-Encoding', 'gzip,deflate');
+            $this->set('Connection', 'Keep-Alive');
+            $this->set('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
+        }
     }
 
-    public function set($key, $value = null)
+    public function set($key, $value)
     {
-        // TODO: Implement set() method.
-        $data = [];
-        if ($value !== null) {
-            $data[$key] = $value;
-        } else {
-            if (is_array($key) === false) {
-                throw new \Exception('设置请求头错误：当仅传入一个参数时该参数必须为数组');
-            }
+        $this->data[$key] = $value;
+        return $this;
+    }
 
-            foreach ($key as $k => $v) {
-                $data[$k] = $v;
-            }
+    public function has($key)
+    {
+        return isset($this->data[$key]);
+    }
+
+    public function get($key, $default = null)
+    {
+        if (!$this->has($key)) {
+            return $default;
+        }
+        return $this->data[$key];
+    }
+
+    public function getData()
+    {
+        $data = [];
+
+        foreach ($this->data as $key => $value) {
+            $data[] = $key . ': ' . $value;
         }
 
-        $this->data = array_merge($this->data, $data);
-    }
-
-    public function get($key = null)
-    {
-        // TODO: Implement get() method.
-        return ($key === null) ?
-            $this->data :
-            (isset($this->data[$key]) === true ? $this->data[$key] : null);
-    }
-
-    public function delete($key)
-    {
-        // TODO: Implement delete() method.
-        unset($this->data[$key]);
-    }
-
-    public function clear()
-    {
-        $this->data = [];
+        return $data;
     }
 }
