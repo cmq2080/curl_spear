@@ -42,7 +42,7 @@ class Response
     protected function decodeContent($content, $contentEncoding)
     {
         if ($contentEncoding == 'gzip') {
-            $content = gzdecode($content);;
+            $content = gzdecode($content);
         }
 
         return $content;
@@ -66,7 +66,7 @@ class Response
 
     public function getJsonData($key = null)
     {
-        $json = json_decode($this->content);
+        $json = json_decode($this->content, true);
         if ($json === null) {
             return null;
         }

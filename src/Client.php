@@ -13,8 +13,8 @@ class Client
 {
     protected static $instance;
 
-    protected $request;
-    protected $response;
+    protected $request = null;
+    protected $response = null;
 
     public static function instance($newInstance = false)
     {
@@ -52,7 +52,7 @@ class Client
 
     public function getResponse()
     {
-        if (!isset($this->response)) {
+        if (!isset($this->response) || !$this->response) {
             return false;
         }
         return $this->response;
@@ -65,6 +65,9 @@ class Client
         if (!in_array($method, Request::ALLOWED_METHOD)) {
             throw new \Exception('Method Is Not Allowed: ' . $method);
         }
+
+        // Clear Response
+        $this->response = null;
 
         // 获取request并装载
         $request = $this->request;
