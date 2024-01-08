@@ -62,7 +62,7 @@ class Client
     {
         // Check Method
         $method = strtoupper($method);
-        if (!in_array($method, Request::ALLOWED_METHOD)) {
+        if (!in_array($method, Request::ALLOWED_METHODS)) {
             throw new \Exception('Method Is Not Allowed: ' . $method);
         }
 

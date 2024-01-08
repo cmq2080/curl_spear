@@ -29,7 +29,7 @@ class Response
             $line = trim($line);
             if (strpos($line, ': ') !== false) {
                 [$key, $value] = explode(': ', $line, 2);
-                $this->setHeaderValue($key, $value);
+                $this->setHeaderValue($key, $value, false);
             }
         }
 

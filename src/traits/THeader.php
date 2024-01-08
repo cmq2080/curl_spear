@@ -32,11 +32,15 @@ trait THeader
         return $this->header;
     }
 
-    public function setHeaderValue($key, $value)
+    public function setHeaderValue($key, $value, $overwrite = true)
     {
         $this->checkHeader();
 
-        $this->header->set($key, $value);
+        if ($overwrite) {
+            $this->header->set($key, $value);
+        } else {
+            $this->header->add($key, $value);
+        }
 
         return $this;
     }

@@ -13,7 +13,7 @@ class Request
     // const METHOD_PUT = '';
     // const METHOD_DELETE = '';
 
-    const ALLOWED_METHOD = [self::METHOD_GET, self::METHOD_POST];
+    const ALLOWED_METHODS = [self::METHOD_GET, self::METHOD_POST];
 
     protected $url = null;
 
